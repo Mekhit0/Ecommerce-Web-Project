@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Listing | DevCut</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        /* --- RESET & GLOBAL VARIABLES --- */
+        :root {
+            --black: #0E1422;
+            --dark-gray: #474B57;
+            --text-gray: #5C5F6A;
+            --light-gray: #E6E7E8;
+            --border-gray: #E9E9EB;
+            --bg-white: #FFFFFF;
+            --bg-wash: #F6F6F6;
+            --font-base: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-base);
+            color: var(--black);
+            background-color: var(--bg-white);
+            font-size: 14px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        ul { list-style: none; }
+        img { display: block; max-width: 100%; }
+        input, button { font-family: inherit; outline: none; }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex-center { display: flex; align-items: center; }
+        .flex-between { display: flex; align-items: center; justify-content: space-between; }
+
+        /* --- TOP NOTIFICATION BAR --- */
+        .top-bar {
+            background-color: var(--black);
+            color: var(--bg-white);
+            text-align: center;
+            padding: 9px 0;
+            font-size: 12px;
+            position: relative;
+        }
+        .top-bar a { text-decoration: underline; margin-left: 5px; font-weight: 500; }
+        .top-bar-close {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 18px 0;
+            background: var(--bg-white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid transparent;
+        }
+        
+        .nav-link {
+            color: var(--text-gray);
+            font-weight: 500;
+            margin: 0 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+        .nav-link.active, .nav-link:hover { color: var(--black); }
+        .nav-link i { font-size: 10px; margin-top: 1px; }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--black);
+            letter-spacing: -0.5px;
+        }
+        .logo img { width: 32px; height: auto; }
+
+        /* Search & Actions */
+        .search-container {
+            position: relative;
+            margin-right: 24px;
+        }
+        .search-container i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            font-size: 16px;
+        }
+        .search-input {
+            border: 1px solid var(--border-gray);
+            border-radius: 6px;
+            padding: 10px 10px 10px 42px;
+            width: 260px;
+            font-size: 14px;
+            color: var(--black);
+            transition: border-color 0.2s;
+        }
+        .search-input:focus { border-color: var(--black); }
+        .search-input::placeholder { color: #878A92; }
+        
+        .header-icons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 16px;
+            padding: 4px;
+            transition: opacity 0.2s;
+        }
+        .header-icons button:hover { opacity: 0.7; }
+        .header-icons img { width: 24px; height: 24px; }
+
+        /* --- BREADCRUMBS --- */
+        .breadcrumb-strip {
+            background-color: var(--bg-wash);
+            padding: 16px 0;
+            margin-bottom: 32px;
+        }
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+        .breadcrumbs i { font-size: 10px; color: #A4A4A4; }
+        .breadcrumbs span.current { color: var(--black); font-weight: 500; }
+
+        /* --- MAIN LAYOUT --- */
+        .main-wrapper {
+            display: flex;
+            gap: 48px;
+            padding-bottom: 80px;
+        }
+
+        /* --- SIDEBAR FILTERS --- */
+        aside { width: 248px; flex-shrink: 0; }
+        
+        .filter-block {
+            border-bottom: 1px solid var(--border-gray);
+            padding: 24px 0;
+        }
+        .filter-block:first-child { padding-top: 0; }
+        .filter-block:last-child { border-bottom: none; }
+
+        .filter-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            color: var(--black);
+        }
+
+        /* Checkbox Style */
+        .check-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
+            cursor: pointer;
+            font-size: 14px;
+            user-select: none;
+            transition: color 0.2s;
+        }
+        .check-item:hover { color: var(--black); }
+        
+        .check-item input {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #C4C4C4;
+            border-radius: 4px;
+            margin-right: 12px;
+            display: grid;
+            place-items: center;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .check-item input:checked {
+            background-color: var(--black);
+            border-color: var(--black);
+        }
+        .check-item input:checked::after {
+            content: '\f00c';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 10px;
+        }
+        .check-item input:hover { border-color: var(--black); }
+
+        /* Colors */
+        .color-grid { display: flex; gap: 14px; flex-wrap: wrap; }
+        .color-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+        }
+        .color-dot.active::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border: 1px solid var(--black);
+            border-radius: 50%;
+        }
+
+        /* Sizes */
+        .size-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+        .size-box {
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        .size-box:hover { border-color: var(--black); color: var(--black); }
+        
+        /* Active State */
+        .size-box.active {
+            border: 1px solid var(--black);
+            color: var(--black);
+            background-color: transparent;
+            font-weight: 700;
+        }
+
+        /* Slider */
+        .range-track {
+            height: 4px;
+            background: var(--light-gray);
+            border-radius: 2px;
+            position: relative;
+            margin: 24px 0 16px;
+        }
+        .range-fill {
+            position: absolute;
+            left: 0%; right: 30%;
+            top: 0; bottom: 0;
+            background: var(--black);
+            border-radius: 2px;
+        }
+        .range-thumb {
+            width: 16px; height: 16px;
+            background: var(--black);
+            border-radius: 50%;
+            position: absolute;
+            top: -6px;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* --- PRODUCT GRID --- */
+        main { flex-grow: 1; }
+
+        /* Applied Filters Section */
+        .applied-filters-section {
+            margin-bottom: 20px;
+        }
+        .active-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border-gray);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 12px;
+            color: var(--black);
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .pill:hover { background-color: var(--bg-wash); border-color: #d1d1d1; }
+        .pill i { color: var(--text-gray); cursor: pointer; font-size: 11px; }
+
+        /* Listing Header Toolbar */
+        .listing-header {
+            margin-bottom: 24px;
+        }
+        
+        .results-count {
+            font-size: 13px; 
+            color: var(--text-gray); 
+            font-weight: 500;
+        }
+
+        .sort-dropdown {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--black);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 24px;
+        }
+
+        .card { 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.2s ease;
+        }
+        .card:hover { transform: translateY(-4px); }
+
+        .card-img {
+            background-color: var(--bg-wash);
+            border-radius: 6px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-img img { 
+            max-height: 85%; 
+            max-width: 90%;
+            mix-blend-mode: multiply; 
+            transition: transform 0.3s ease;
+        }
+        .card:hover .card-img img { transform: scale(1.05); }
+        
+        .wishlist-icon {
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 32px; height: 32px;
+            background: white;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+        .card:hover .wishlist-icon { opacity: 1; transform: translateY(0); }
+        .wishlist-icon:hover { background-color: var(--black); color: white; }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--black);
+            line-height: 1.4;
+        }
+        .card-meta { display: flex; align-items: center; gap: 12px; }
+        .stock-badge {
+            border: 1px solid var(--border-gray);
+            border-radius: 100px;
+            padding: 3px 10px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .price { font-size: 13px; color: var(--dark-gray); }
+
+        /* PAGINATION */
+        .pagination { margin-top: 64px; gap: 8px; justify-content: center; }
+        .page-btn {
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .page-btn:hover { background-color: var(--bg-wash); color: var(--black); }
+        .page-btn.active {
+            background-color: var(--bg-wash);
+            color: var(--black);
+            font-weight: 600;
+            border: 1px solid var(--border-gray);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--bg-white);
+            padding-top: 0;
+            margin-top: 40px;
+        }
+        
+        .newsletter-wrapper {
+            background-color: #F6F6F6; /* Dark Gray */
+            padding: 60px 0;
+        }
+        
+        .newsletter-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .news-left h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: black; }
+        .news-left p { color: black; font-size: 14px; }
+        
+        .news-form { display: flex; gap: 12px; }
+        .news-form input {
+            padding: 10px 16px;
+            border: 1px solid ;
+            border-radius: 4px;
+            width: 300px;
+            color: var(--black);
+            background: #F6F6F6;
+        }
+        .news-form button {
+            background: var(--black);
+            color: white;
+            border: 1px solid white;
+            border-radius: 4px;
+            padding: 0 24px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .news-form button:hover { background: #333; }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            padding: 60px 0;
+        }
+        
+        .footer-brand { width: 28%; }
+        .footer-brand .logo { margin-bottom: 16px; }
+        .footer-brand p { font-size: 14px; color: var(--text-gray); line-height: 1.6; margin-bottom: 24px; }
+        .socials { display: flex; gap: 20px; }
+        .socials i {
+            color: var(--text-gray);
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .socials i:hover { color: var(--black); }
+
+        .footer-links h4 {
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text-gray);
+            letter-spacing: 0.5px;
+        }
+        .footer-links ul li {
+            margin-bottom: 14px;
+            color: var(--dark-gray);
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .footer-links ul li:hover { color: var(--black); }
+
+        .bottom-bar {
+            padding: 24px 0;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 13px;
+            background-color: var(--bg-white);
+            border-top: 1px solid var(--border-gray);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container">
+            <span>Get 25% OFF on your first order. <a href="#">Order Now</a></span>
+        </div>
+        <button class="top-bar-close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <header>
+        <div class="container flex-between">
+            <div class="logo">
+                <img src="Images/Logomark.png" alt="Logo">
+                <span>Ecommerce</span>
+            </div>
+            
+            <nav>
+                <span class="nav-link">Home</span>
+                <span class="nav-link active">Categories <i class="fa-solid fa-chevron-down"></i></span>
+                <span class="nav-link">About</span>
+                <span class="nav-link">Contact</span>
+            </nav>
+
+            <div class="flex-center">
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="search-input" placeholder="Search products">
+                </div>
+                <div class="header-icons">
+                    <button><img src="Images/Icon.png" alt="Cart"></button>
+                    <button><img src="Images/User.png" alt="User"></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb-strip">
+        <div class="container breadcrumbs">
+            <a href="#">Ecommerce</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span class="current">Search</span>
+        </div>
+    </div>
+
+    <div class="container main-wrapper">
+        
+        <aside>
+            <div class="filter-block">
+                <div class="filter-title">Categories <i class="fa-solid fa-chevron-up"></i></div>
+                <label class="check-item"><input type="checkbox" checked> Perfume</label>
+                <label class="check-item"><input type="checkbox"> Trousers</label>
+                <label class="check-item"><input type="checkbox"> Shoe</label>
+                <label class="check-item"><input type="checkbox"> Handbag</label>
+                <label class="check-item"><input type="checkbox"> Hat</label>
+                <label class="check-item"><input type="checkbox"> Thermos</label>
+            </div>
+
+            <div class="filter-block">
+                <div class="filter-title">Color <i class="fa-solid fa-chevron-up"></i></div>
+                <div class="color-grid">
+                    <div class="color-dot" style="background: #A3BEF8;"></div>
+                    <div class="color-dot" style="background: #FFD58A;"></div>
+                    <div class="color-dot" style="background: #83B18B;"></div>
+                    <div class="color-dot" style="background: #4078FF;"></div>
+                </div>
+            </div>
+
+            <div class="filter-block">
+                <div class="filter-title">Size <i class="fa-solid fa-chevron-up"></i></div>
+                <div class="size-grid">
+                    <div class="size-box">S</div>
+                    <div class="size-box active">M</div>
+                    <div class="size-box">L</div>
+                    <div class="size-box">XL</div>
+                    <div class="size-box">XXL</div>
+                </div>
+            </div>
+
+            <div class="filter-block">
+                <div class="filter-title">Price <i class="fa-solid fa-chevron-up"></i></div>
+                <div class="range-track">
+                    <div class="range-fill"></div>
+                    <div class="range-thumb" style="left: 0%; transform: translateX(-1%);"></div>
+                    <div class="range-thumb" style="right: 30%; transform: translateX(50%);"></div>
+                </div>
+                <div style="font-weight: 600; font-size: 14px;">$0 - $500</div>
+            </div>
+        </aside>
+
+        <main>
+            <div class="applied-filters-section">
+                <div style="font-weight: 600; margin-bottom: 8px;">Applied Filters:</div>
+                <div class="active-filters">
+                    <span class="pill">Perfume <i class="fa-solid fa-xmark"></i></span>
+                    <span class="pill">Size: M <i class="fa-solid fa-xmark"></i></span>
+                </div>
+            </div>
+
+            <div class="flex-between listing-header">
+                <div class="results-count">Showing 1-9 of 36 results.</div>
+                
+                <div class="sort-dropdown">
+                    SORT BY <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover.png" alt="Item 1">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Classic Monochrome Tees</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$35.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (4).png" alt="Item 2">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Monochromatic Wardrobe</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$27.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/Image (6).png"  alt="Item 3">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Essential Neutrals</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$22.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (1).png" alt="Item 4">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">UTRAANET Black</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$43.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (5).png" alt="Item 5">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Elegant Ebony Sweatshirts</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$35.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (2).png" alt="Item 6">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Sleek and Cozy Black</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$57.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (3).png" style="filter: contrast(1.2);" alt="Item 7">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Raw Black Tees</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$19.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (6).png" style="transform: scaleX(-1);" alt="Item 8">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">MOCKUP Black</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$30.00</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="Images/cover (7).png" alt="Item 9">
+                        <div class="wishlist-icon"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="card-title">Athletic Shirt</div>
+                    <div class="card-meta">
+                        <span class="stock-badge">IN STOCK</span>
+                        <span class="price">$35.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-center pagination">
+                <div class="page-btn"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="page-btn active">1</div>
+                <div class="page-btn">2</div>
+                <div class="page-btn">...</div>
+                <div class="page-btn">23</div>
+                <div class="page-btn">24</div>
+                <div class="page-btn"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="newsletter-wrapper">
+            <div class="container newsletter-content">
+                <div class="news-left">
+                    <h3>Join Our Newsletter</h3>
+                    <p>We love to surprise our subscribers with occasional gifts.</p>
+                </div>
+                <div class="news-form">
+                    <input type="email" placeholder="Your email address">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="Images/Logomark.png" alt="Logo">
+                        <span>Ecommerce</span>
+                    </div>
+                    <p>DevCut is a YouTube channel for practical project-based learning.</p>
+                    <div class="socials">
+                        <i class="fa-brands fa-github"></i>
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li>FAQ</li>
+                        <li>Terms of use</li>
+                        <li>Privacy Policy</li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li>About us</li>
+                        <li>Contact</li>
+                        <li>Careers</li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li>My Account</li>
+                        <li>Checkout</li>
+                        <li>Cart</li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Accepted Payments</h4>
+                    <div style="display: flex; gap: 10px; font-size: 24px; color: #444;">
+                        <i class="fa-brands fa-cc-mastercard"></i>
+                        <i class="fa-brands fa-cc-amex"></i>
+                        <i class="fa-brands fa-cc-visa"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-bar">
+            &copy; 2023 DevCut. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
