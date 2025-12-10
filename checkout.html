@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart </title>
+    <title>Checkout | DevCut</title>
     <link rel="stylesheet" href="./Styles/styles.css">
-    <link rel="stylesheet" href="./Styles/Cart.css">
+    <link rel="stylesheet" href="./Styles/Checkout.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,110 +50,101 @@
     </header>
 
     <div class="breadcrumb-strip">
-        <div class="container breadcrumbs">
-            <a href="#">Ecommerce</a>
-            <i class="fa-solid fa-chevron-right"></i>
-            <span class="current">Cart</span>
+        <div class="container">
+            <h1 class="page-title">Checkout</h1>
+            <div class="breadcrumbs">
+                <a href="#">Ecommerce</a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span class="current">Checkout</span>
+            </div>
         </div>
     </div>
 
     <div class="container">
-        <h1 class="page-title">Cart</h1>
 
-        <div class="cart-wrapper">
+        <div class="checkout-grid">
 
-            <div class="cart-items">
-                <h2>Your cart</h2>
+            <div class="checkout-form">
+                <h2 class="section-title">Shipping Address</h2>
 
-                <div class="cart-list">
-
-                    <div class="cart-item">
-                        <div class="item-img">
-                            <img src="./Images/cover (1).png" alt="Raw Black T-Shirt">
-                        </div>
-                        <div class="item-details">
-                            <span class="item-name">Raw Black T-Shirt Lineup</span>
-                            <div class="item-meta">
-                                Color: <span class="color-dot bg-green"></span>
-                                <span style="margin: 0 8px;">—</span>
-                                Size: M
-                            </div>
-                        </div>
-                        <div class="item-price">$75.00</div>
-                        <div class="qty-box">
-                            <button class="qty-btn">−</button>
-                            <span class="qty-val">1</span>
-                            <button class="qty-btn">+</button>
-                        </div>
-                        <button class="remove-btn"><i class="fa-solid fa-xmark"></i></button>
+                <form class="address-form">
+                    <div class="form-group full-width">
+                        <label>Street Address</label>
+                        <input type="text">
                     </div>
 
-                    <div class="cart-item">
-                        <div class="item-img">
-                            <img src="./Images/cover (4).png" alt="Essential Neutrals">
-                        </div>
-                        <div class="item-details">
-                            <span class="item-name">Essential Neutrals</span>
-                            <div class="item-meta">
-                                Color: <span class="color-dot bg-purple"></span>
-                                <span style="margin: 0 8px;">—</span>
-                                Size: M
-                            </div>
-                        </div>
-                        <div class="item-price">$22.00</div>
-                        <div class="qty-box">
-                            <button class="qty-btn">−</button>
-                            <span class="qty-val">1</span>
-                            <button class="qty-btn">+</button>
-                        </div>
-                        <button class="remove-btn"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <input type="text">
                     </div>
 
-                </div>
+                    <div class="form-group">
+                        <label>Zip Code</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Full name</label>
+                        <input type="text">
+                    </div>
+                </form>
             </div>
 
-            <aside class="order-summary">
-                <h2>Order Summary</h2>
+            <div class="order-summary">
+                <h2 class="section-title">Your Order</h2>
+
+                <div class="order-items-row">
+                    <div class="item-thumbnails">
+                        <div class="thumb-box">
+                            <img src="Images/Image (6).png" alt="Item 1">
+                        </div>
+                        <div class="thumb-box">
+                            <img src="Images/cover (4).png" alt="Item 2">
+                        </div>
+                        <div class="thumb-box">
+                            <img src="Images/cover.png" alt="Item 3">
+                        </div>
+                    </div>
+                    <button class="btn-edit-cart">Edit Cart</button>
+                </div>
 
                 <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>$ 90.00</span>
+                    <span>Subtotal:</span>
+                    <span style="font-weight: 500; color: var(--black);">$ 75.00</span>
                 </div>
                 <div class="summary-row">
                     <span>Shipping:</span>
-                    <span>Free</span>
+                    <span style="font-weight: 500; color: var(--black);">Free</span>
                 </div>
                 <div class="summary-row">
                     <span>Tax:</span>
-                    <span>$ 3.00</span>
+                    <span style="font-weight: 500; color: var(--black);">$ 3.00</span>
                 </div>
 
-                <div class="total-row">
+                <div class="summary-row total">
                     <span>Total</span>
-                    <span>$ 100.00</span>
+                    <span>$ 78.00</span>
                 </div>
 
-                <button class="checkout-btn">Checkout</button>
-                <a href="#" class="continue-link">Continue Shopping</a>
-            </aside>
+                <button class="place-order-btn">Place Order</button>
+            </div>
 
         </div>
     </div>
 
     <footer>
-        <div class="newsletter-wrapper">
-            <div class="container newsletter-content">
-                <div class="news-left">
-                    <h3>Join Our Newsletter</h3>
-                    <p>We love to surprise our subscribers with occasional gifts.</p>
-                </div>
-                <div class="news-form">
-                    <input type="email" placeholder="Your email address">
-                    <button>Subscribe</button>
-                </div>
-            </div>
-        </div>
-
         <div class="container">
             <div class="footer-inner">
                 <div class="footer-brand">
